@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ClienteWeb.Models.ViewModels.ApartamentoViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Apartamentos";
+}
+
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">🏠 Apartamentos</h2>
+        <a href="@Url.Action("Create")" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Agregar Apartamento
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Número</th>
+                    <th>Responsable</th>
+                    <th>Estado</th>
+                    <th>Descripción</th>
+                    <th>Torre</th>
+                    <th>Piso</th>
+                    <th>Área (m²)</th>
+                    <th>Coste de Administración</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var apto in Model)
+                {
+                    <tr id="row-@apto.ApartamentoId">
+                        <td>@apto.Numero</td>
+                        <td>@apto.UsuarioResponsable</td>
+                        <td>
+                            <span class="badge @(apto.Estado == "Ocupado" ? "bg-danger" : "bg-success")">
+                                @apto.Estado
+                            </span>
+                        </td>
+                        <td>@apto.Descripcion</td>
+                        <td>@apto.Torre</td>
+                        <td>@apto.Piso</td>
+                        <td>@apto.AreaM2</td>
+                        <td>$@(apto.CosteAdministracion)</td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = apto.ApartamentoId })" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <button onclick="eliminarApartamento(@apto.ApartamentoId)" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script src="~/js/apartamento.js"></script>

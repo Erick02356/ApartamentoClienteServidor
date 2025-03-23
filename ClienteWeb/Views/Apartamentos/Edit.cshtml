@@ -1,0 +1,52 @@
+﻿@model ClienteWeb.Models.ViewModels.ApartamentoViewModel
+
+
+@{
+    ViewData["Title"] = "Editar Apartamento";
+}
+
+<h2>Editar Apartamento</h2>
+
+<form id="editForm">
+    <input type="hidden" id="apartamentoId" value="@Model.ApartamentoId" />
+
+    <div class="mb-3">
+        <label for="numero" class="form-label">Número del Apartamento</label>
+        <input type="text" class="form-control" id="numero" value="@Model.Numero" required maxlength="10">
+    </div>
+
+    <div class="mb-3">
+        <label for="usuarioResponsable" class="form-label">Usuario Responsable</label>
+        <input type="text" class="form-control" id="usuarioResponsable" value="@Model.UsuarioResponsable" required maxlength="50">
+    </div>
+
+    <div class="mb-3">
+        <label for="estado" class="form-label">Estado</label>
+        <input type="text" class="form-control" id="estado" value="@Model.Estado" required maxlength="20">
+    </div>
+
+    <div class="mb-3">
+        <label for="torre" class="form-label">Torre</label>
+        <input type="text" class="form-control" id="torre" value="@Model.Torre" required maxlength="10">
+    </div>
+
+    <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <textarea class="form-control" id="descripcion" maxlength="200">@Model.Descripcion</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="piso" class="form-label">Piso</label>
+        <input type="number" class="form-control" id="piso" value="@Model.Piso" required min="1" max="100">
+    </div>
+
+    <div class="mb-3">
+        <label for="areaM2" class="form-label">Área (m²)</label>
+        <input type="number" class="form-control" id="areaM2" value="@Model.AreaM2" required min="10" max="1000" step="0.1">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a href="@Url.Action("Index", "Apartamentos")" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<script src="~/js/apartamento.js"></script>
