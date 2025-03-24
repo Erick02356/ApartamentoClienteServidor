@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución",
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClienteEscritorio", "ClienteEscritorio\ClienteEscritorio.csproj", "{C1A2B9D6-A8B9-4A86-93D9-51C00907031E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{7D330BAE-F5C7-4B58-BA99-1D58AD573139}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D330BAE-F5C7-4B58-BA99-1D58AD573139}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D330BAE-F5C7-4B58-BA99-1D58AD573139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A2B9D6-A8B9-4A86-93D9-51C00907031E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A2B9D6-A8B9-4A86-93D9-51C00907031E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A2B9D6-A8B9-4A86-93D9-51C00907031E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A2B9D6-A8B9-4A86-93D9-51C00907031E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
