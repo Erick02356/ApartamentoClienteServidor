@@ -154,7 +154,7 @@ namespace ClienteEscritorio
         private async Task CargarApartamentos()
         {
             DgvApto.DataSource = null;
-            var apartamentos = await _apiService.GetApartamentosAsync();
+            var apartamentos = await _apiService.GetApartamentosWinFormsAsync();
             DgvApto.DataSource = apartamentos;
         }
         #endregion

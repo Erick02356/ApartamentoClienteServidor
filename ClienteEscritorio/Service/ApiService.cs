@@ -1,4 +1,5 @@
-﻿using ClienteEscritorio.Models;
+﻿using ApiApartamentos.DTOs;
+using ClienteEscritorio.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,13 @@ namespace ClienteEscritorio.Service
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<ApartamentoViewModel>> GetApartamentosAsync()
-            => await _httpClient.GetFromJsonAsync<List<ApartamentoViewModel>>(_apiUrl) ?? new List<ApartamentoViewModel>();
+        //public async Task<List<ApartamentoViewModel>> GetApartamentosAsync()
+        //    => await _httpClient.GetFromJsonAsync<List<ApartamentoViewModel>>(_apiUrl) ?? new List<ApartamentoViewModel>();
+        public async Task<List<ApartamentoFullDTO>> GetApartamentosWinFormsAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<ApartamentoFullDTO>>($"{_apiUrl}/cliente/winforms");
+        }
+
 
         public async Task<ApartamentoViewModel> GetApartamentoByIdAsync(int id)
             => await _httpClient.GetFromJsonAsync<ApartamentoViewModel>($"{_apiUrl}/{id}");

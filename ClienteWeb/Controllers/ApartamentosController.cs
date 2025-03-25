@@ -1,4 +1,5 @@
-﻿using ClienteWeb.Models.ViewModels;
+﻿using AutoMapper;
+using ClienteWeb.Models.ViewModels;
 using ClienteWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
@@ -8,10 +9,12 @@ namespace ClienteWeb.Controllers
     public class ApartamentosController : Controller
     {
         private readonly ApiService _apiService;
+        private readonly IMapper _mapper;
 
-        public ApartamentosController(ApiService apiService)
+        public ApartamentosController(ApiService apiService, IMapper mapper)
         {
             _apiService = apiService;
+            _mapper = mapper;   
         }
 
         //Listar Apartamentos
@@ -22,14 +25,15 @@ namespace ClienteWeb.Controllers
             {
                 return RedirectToAction("Login", "Auth");
             }
-            var apartamento = await _apiService.GetApartamentosAsync();
-            if (apartamento == null)
+            var apartamentosDTO = await _apiService.GetApartamentosAsync(); // Obtiene los DTOs
+            if (apartamentosDTO == null)
             {
                 return RedirectToAction("Logout", "Auth");
             }
-            return View(apartamento);
+            var apartamentosVM = _mapper.Map<IEnumerable<ApartamentoViewModel>>(apartamentosDTO); // Mapea a ViewModel
+            return View(apartamentosVM);
         }
-        //Listar Apto
+        //Listar Apto por usuario
         public async Task<IActionResult> Index()
         {
             var usuarioResponsable = Request.Cookies["UsuarioResponsable"];
@@ -41,7 +45,8 @@ namespace ClienteWeb.Controllers
             var apartamento = await _apiService.GetApartamentoPorUsuario(usuarioResponsable);
             if (apartamento == null)
             {
-                TempData["Error"] = "No tienes apartamento asignado.";
+                Response.Cookies.Delete("UsuarioResponsable");
+                TempData["Error"] = "Tu cuenta ha sido eliminada. Inicia sesión nuevamente.";
                 return RedirectToAction("Login", "Auth");
             }
 

@@ -1,4 +1,5 @@
-﻿using ClienteWeb.Models.ViewModels;
+﻿using ApiApartamentos.DTOs;
+using ClienteWeb.Models.ViewModels;
 using System.Text;
 using System.Text.Json;
 
@@ -13,18 +14,23 @@ namespace ClienteWeb.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<List<ApartamentoViewModel>> GetApartamentosAsync()
+        //public async Task<List<ApartamentoViewModel>> GetApartamentosAsync()
+        //{
+        //    try
+        //    {
+        //        return await _httpClient.GetFromJsonAsync<List<ApartamentoViewModel>>("");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error en GetApartamentosAsync: {ex.Message}");
+        //        return new List<ApartamentoViewModel>();
+        //    }
+        //}
+        public async Task<List<ApartamentoDTO>> GetApartamentosAsync()
         {
-            try
-            {
-                return await _httpClient.GetFromJsonAsync<List<ApartamentoViewModel>>("");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error en GetApartamentosAsync: {ex.Message}");
-                return new List<ApartamentoViewModel>();
-            }
+            return await _httpClient.GetFromJsonAsync<List<ApartamentoDTO>>($"cliente/web");
         }
+
 
         // 2. Obtener un apartamento por ID
         public async Task<ApartamentoViewModel?> GetApartamentoByIdAsync(int id)

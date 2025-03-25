@@ -16,4 +16,8 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ApiApartamentos\ApiApartamentos.csproj" />
+  </ItemGroup>
+
 </Project>

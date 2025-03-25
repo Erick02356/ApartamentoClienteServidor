@@ -1,3 +1,4 @@
+using ClienteWeb.Mappings;
 using ClienteWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddHttpClient<ApiService>(client =>
     client.BaseAddress = new Uri("https://localhost:7243/api/Apartamento/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
+builder.Services.AddAutoMapper(typeof(ApartamentoProfile));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

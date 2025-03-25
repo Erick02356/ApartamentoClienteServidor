@@ -1,4 +1,6 @@
-﻿using ApiApartamentos.Hubs;
+﻿using ApiApartamentos.DTOs;
+using ApiApartamentos.Hubs;
+using AutoMapper;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repository;
 using Microsoft.AspNetCore.Http;
@@ -13,19 +15,31 @@ namespace ApiApartamentos.Controllers
     {
         private readonly IApartamentoRepository<Apartamento> _apartamentoRepository;
         private readonly IHubContext<ApartamentosHub> _hubContext;
-        public ApartamentoController(IApartamentoRepository<Apartamento> apartamentoRepository, IHubContext<ApartamentosHub> hubContext)
+        private readonly IMapper _mapper;
+
+        public ApartamentoController(IApartamentoRepository<Apartamento> apartamentoRepository, IHubContext<ApartamentosHub> hubContext, IMapper mapper)
         {
             _apartamentoRepository = apartamentoRepository;
             _hubContext = hubContext;
+            _mapper = mapper;
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("cliente/{tipoCliente}")]
+        public async Task<ActionResult<IEnumerable<object>>> GetApartamentos(string tipoCliente = "web")
         {
             var apartamentos = await _apartamentoRepository.GetAll();
-            return Ok(apartamentos);
+
+            if (tipoCliente.ToLower() == "winforms")
+                return Ok(_mapper.Map<List<ApartamentoFullDTO>>(apartamentos));
+
+            return Ok(_mapper.Map<List<ApartamentoDTO>>(apartamentos));
         }
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    var apartamentos = await _apartamentoRepository.GetAll();
+        //    return Ok(apartamentos);
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
