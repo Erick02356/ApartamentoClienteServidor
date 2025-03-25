@@ -1,3 +1,4 @@
+using ApiApartamentos.Hubs;
 using DataAccessLayer;
 using DataAccessLayer.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +16,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped(typeof(IApartamentoRepository<>), typeof(ApartamentoRepository<>));
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    options.AddPolicy("AllowSpecificOrigin", policy =>
+    {
+        policy.WithOrigins("https://localhost:7058") // ?? Usa la URL de tu cliente web
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // ?? Permite credenciales (cookies, autenticación, etc.)
+    });
 });
+builder.Services.AddSignalR();
 
 
 var app = builder.Build();
-app.UseCors("AllowAll");
-
+app.UseCors("AllowSpecificOrigin");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -35,5 +41,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ApartamentosHub>("/apartamentosHub");
 
 app.Run();

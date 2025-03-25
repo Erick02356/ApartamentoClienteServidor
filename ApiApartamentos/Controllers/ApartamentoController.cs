@@ -1,7 +1,9 @@
-﻿using DataAccessLayer.Models;
+﻿using ApiApartamentos.Hubs;
+using DataAccessLayer.Models;
 using DataAccessLayer.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ApiApartamentos.Controllers
 {
@@ -10,10 +12,11 @@ namespace ApiApartamentos.Controllers
     public class ApartamentoController : ControllerBase
     {
         private readonly IApartamentoRepository<Apartamento> _apartamentoRepository;
-
-        public ApartamentoController(IApartamentoRepository<Apartamento> apartamentoRepository)
+        private readonly IHubContext<ApartamentosHub> _hubContext;
+        public ApartamentoController(IApartamentoRepository<Apartamento> apartamentoRepository, IHubContext<ApartamentosHub> hubContext)
         {
             _apartamentoRepository = apartamentoRepository;
+            _hubContext = hubContext;
         }
 
 
@@ -43,6 +46,9 @@ namespace ApiApartamentos.Controllers
                 return BadRequest("Datos inválidos");
             }
             var created = await _apartamentoRepository.AddAsync(entity);
+
+            await _hubContext.Clients.All.SendAsync("RecargarDatos");
+
             return CreatedAtAction(nameof(GetById), new {id = created.ApartamentoId}, created);
         }
 
@@ -56,6 +62,9 @@ namespace ApiApartamentos.Controllers
             {
                 return NotFound();
             }
+
+            await _hubContext.Clients.All.SendAsync("RecargarDatos");
+
             return NoContent();
         }
 
@@ -69,6 +78,9 @@ namespace ApiApartamentos.Controllers
             }
 
             await _apartamentoRepository.DeleteAsync(id);
+
+            await _hubContext.Clients.All.SendAsync("RecargarDatos");
+
             return NoContent(); // Retorna 204 si la eliminación fue exitosa
         }
     }

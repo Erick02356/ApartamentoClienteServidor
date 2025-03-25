@@ -15,6 +15,7 @@ namespace ClienteWeb.Controllers
         }
 
         //Listar Apartamentos
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Index()
         {
             var apartamentos = await _apiService.GetApartamentosAsync();

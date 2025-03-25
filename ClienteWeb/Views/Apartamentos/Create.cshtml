@@ -4,35 +4,78 @@
     ViewData["Title"] = "Crear Apartamento";
 }
 
-<h2>Nuevo Apartamento</h2>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">🏠 Nuevo Apartamento</h4>
+        </div>
+        <div class="card-body">
+            <form id="form-apartamento">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Número</label>
+                            <input type="text" class="form-control" id="numero" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Responsable</label>
+                            <input type="text" class="form-control" id="usuarioResponsable" required>
+                        </div>
+                    </div>
+                </div>
 
-<form id="form-apartamento">
-    <div class="form-group">
-        <label>Número</label>
-        <input type="text" class="form-control" id="numero" required>
-    </div>
-    <div class="form-group">
-        <label>Responsable</label>
-        <input type="text" class="form-control" id="usuarioResponsable" required>
-    </div>
-    <div class="form-group">
-        <label>Estado</label>
-        <input type="text" class="form-control" id="estado" required>
-    </div>
-    <div class="form-group">
-        <label>Torre</label>
-        <input type="text" class="form-control" id="torre" required>
-    </div>
-    <div class="form-group">
-        <label>Piso</label>
-        <input type="number" class="form-control" id="piso" required>
-    </div>
-    <div class="form-group">
-        <label>Área (m²)</label>
-        <input type="number" class="form-control" id="areaM2" required>
-    </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-control" id="estado" required>
+                                <option value="Disponible">Disponible</option>
+                                <option value="Ocupado">Ocupado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Torre</label>
+                            <input type="text" class="form-control" id="torre" required>
+                        </div>
+                    </div>
+                </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-</form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Piso</label>
+                            <input type="number" class="form-control" id="piso" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Área (m²)</label>
+                            <input type="number" class="form-control" id="areaM2" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" maxlength="200" rows="3" placeholder="Agrega una breve descripción del apartamento"></textarea>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Guardar
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="~/js/apartamento.js"></script>
+<script src="~/js/signalr/signalr.min.js"></script>

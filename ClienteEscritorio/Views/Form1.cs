@@ -1,5 +1,7 @@
 using ClienteEscritorio.Models;
 using ClienteEscritorio.Service;
+using Microsoft.AspNetCore.SignalR.Client;
+using System.Windows.Forms;
 
 namespace ClienteEscritorio
 {
@@ -7,10 +9,13 @@ namespace ClienteEscritorio
     {
         private readonly ApiService _apiService;
         private int? _editandoId = null;
+        private HubConnection _hubConnection;
+
         public Form1()
         {
             InitializeComponent();
             _apiService = new ApiService();
+            IniciarSignalR();
 
         }
 
@@ -19,12 +24,7 @@ namespace ClienteEscritorio
             await CargarApartamentos();
 
         }
-        private async Task CargarApartamentos()
-        {
-            DgvApto.DataSource = null;
-            var apartamentos = await _apiService.GetApartamentosAsync();
-            DgvApto.DataSource = apartamentos;
-        }
+
         private async void BtnEliminar_Click(object sender, EventArgs e)
         {
             if (DgvApto.SelectedRows.Count == 0) return;
@@ -68,6 +68,8 @@ namespace ClienteEscritorio
             {
                 resultado = await _apiService.UpdateApartamentoAsync(_editandoId.Value, apartamento);
                 if (resultado) MessageBox.Show("Apartamento actualizado correctamente.");
+                BtnCrear.Text = "Crear";
+
             }
 
             if (resultado)
@@ -80,29 +82,17 @@ namespace ClienteEscritorio
                 MessageBox.Show("Error al guardar los datos.");
             }
         }
-        #region
-        private void LimpiarFormulario()
-        {
-            _editandoId = null;
-            txtNumero.Clear();
-            txtUsuarioResponsable.Clear();
-            CbEstado.SelectedValue = -1;
-            txtTorre.Clear();
-            txtDescripcion.Clear();
-            numPiso.Value = 1;
-            numArea.Value = 10;
-        }
-        #endregion
 
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
+            BtnCrear.Text = "Crear";
             LimpiarFormulario();
         }
 
         private async void DgvApto_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 BtnCrear.Text = "Editar";
                 var id = (int)DgvApto.Rows[e.RowIndex].Cells["ApartamentoId"].Value;
@@ -119,7 +109,56 @@ namespace ClienteEscritorio
                     numArea.Value = (decimal)apartamento.AreaM2;
                 }
             }
-        
+
         }
+
+
+
+
+
+        #region
+        private void LimpiarFormulario()
+        {
+            _editandoId = null;
+            txtNumero.Clear();
+            txtUsuarioResponsable.Clear();
+            CbEstado.SelectedValue = -1;
+            txtTorre.Clear();
+            txtDescripcion.Clear();
+            numPiso.Value = 1;
+            numArea.Value = 10;
+        }
+
+        private async void IniciarSignalR()
+        {
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:7243/apartamentosHub") // URL de la API
+                .WithAutomaticReconnect()
+                .Build();
+
+            _hubConnection.On("RecargarDatos", () =>
+            {
+                Invoke(new Action(() => CargarApartamentos())); // Recargar DataGridView
+            });
+
+            try
+            {
+                await _hubConnection.StartAsync();
+                Console.WriteLine("Conectado a SignalR");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al conectar con SignalR: {ex.Message}");
+            }
+        }
+        private async Task CargarApartamentos()
+        {
+            DgvApto.DataSource = null;
+            var apartamentos = await _apiService.GetApartamentosAsync();
+            DgvApto.DataSource = apartamentos;
+        }
+        #endregion
+
+
     }
 }

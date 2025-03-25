@@ -13,22 +13,22 @@ namespace ClienteEscritorio.Models
 
         [Required]
         [StringLength(10)]
-        public string Numero { get; set; }
+        public string? Numero { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string UsuarioResponsable { get; set; }
+        public string? UsuarioResponsable { get; set; }
 
         [Required]
         [StringLength(20)]
-        public string Estado { get; set; }
+        public string? Estado { get; set; }
 
         [Required]
         [StringLength(10)]
-        public string Torre { get; set; }
+        public string? Torre { get; set; }
 
         [StringLength(200)]
-        public string Descripcion { get; set; }
+        public string? Descripcion { get; set; }
 
         [Required]
         [Range(1, 100)]
