@@ -15,5 +15,7 @@ namespace DataAccessLayer.Repository
         Task<TEntity> AddAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);
         Task DeleteAsync(int id);
+
+        Task<Apartamento?> GetByUserAsync(string usuarioResponsable);
     }
 }

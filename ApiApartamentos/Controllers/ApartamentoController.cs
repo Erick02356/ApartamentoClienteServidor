@@ -83,5 +83,15 @@ namespace ApiApartamentos.Controllers
 
             return NoContent(); // Retorna 204 si la eliminación fue exitosa
         }
+
+        [HttpGet("usuario/{usuarioResponsable}")]
+        public async Task<IActionResult> GetByUSer(string usuarioResponsable)
+        {
+            var apartamento = await _apartamentoRepository.GetByUserAsync(usuarioResponsable);
+            if (apartamento == null)
+                return NotFound();
+
+            return Ok(apartamento);
+        }
     }
 }

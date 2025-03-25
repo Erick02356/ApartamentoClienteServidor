@@ -84,5 +84,12 @@ namespace ClienteWeb.Services
                 return false;
             }
         }
+
+        //Autenticar por usuario
+        public async Task<ApartamentoViewModel?> GetApartamentoPorUsuario(string usuarioResponsable)
+        {
+            return await _httpClient.GetFromJsonAsync<ApartamentoViewModel>($"usuario/{usuarioResponsable}");
+        }
+
     }
 }

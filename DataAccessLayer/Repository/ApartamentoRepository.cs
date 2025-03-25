@@ -53,7 +53,11 @@ namespace DataAccessLayer.Repository
             await _context.SaveChangesAsync();
             return entity;
         }
+        public async Task<Apartamento?> GetByUserAsync(string usuarioResponsable)
+        {
+            return await _context.Apartamento.FirstOrDefaultAsync(a => a.UsuarioResponsable == usuarioResponsable);
+        }
 
- 
+
     }
 }
